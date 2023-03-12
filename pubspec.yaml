@@ -18,6 +18,7 @@ dependencies:
   retrofit:
   dio:
   json_annotation:
+  table_calendar:
 
 dev_dependencies:
   flutter_test:

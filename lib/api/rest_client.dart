@@ -3,6 +3,7 @@ import 'package:go_to_the_fucking_gym/api/dio_client.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'dto/dto.dart';
+import 'model/model.dart';
 
 part 'rest_client.g.dart';
 
@@ -11,14 +12,16 @@ abstract class _RestClient {
   factory _RestClient(Dio dio) = __RestClient;
 
   @GET("/workouts")
-  Future<List<WorkoutRecordDto>> getWorkoutRecord();
+  Future<List<WorkoutRecordDto>> getWorkoutRecord(
+    @Query('day') String day,
+  );
 
   @POST('/workouts')
   @Headers(<String, dynamic>{
     "Content-Type": "application/json",
   })
   Future<HttpResponse> setWorkoutRecord(
-    @Body() WorkoutRecordDto record,
+    @Body() WorkoutRecordModel record,
   );
 }
 
@@ -32,11 +35,11 @@ class ApiInterface {
     return _instance;
   }
 
-  Future<List<WorkoutRecordDto>> getWorkoutRecord() async {
-    return await _restClient.getWorkoutRecord();
+  Future<List<WorkoutRecordDto>> getWorkoutRecord(String day) async {
+    return await _restClient.getWorkoutRecord(day);
   }
 
-  Future<void> setWOrkoutRecord({required WorkoutRecordDto record}) async {
+  Future<void> setWOrkoutRecord({required WorkoutRecordModel record}) async {
     await _restClient.setWorkoutRecord(record);
   }
 }

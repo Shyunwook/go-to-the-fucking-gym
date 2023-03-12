@@ -19,9 +19,9 @@ class __RestClient implements _RestClient {
   String? baseUrl;
 
   @override
-  Future<List<WorkoutRecordDto>> getWorkoutRecord() async {
+  Future<List<WorkoutRecordDto>> getWorkoutRecord(day) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'day': day};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

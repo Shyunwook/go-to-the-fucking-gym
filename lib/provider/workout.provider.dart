@@ -3,6 +3,8 @@ import 'package:go_to_the_fucking_gym/api/dto/dto.dart';
 import 'package:go_to_the_fucking_gym/api/rest_client.dart';
 import 'package:intl/intl.dart';
 
+import '../api/model/model.dart';
+
 class WorkoutController with ChangeNotifier {
   final performedWorkoutMap = <String, Map<String, List<PerformSet>>>{};
   double totalVolume = 0;
@@ -76,8 +78,11 @@ class WorkoutController with ChangeNotifier {
       return PerformedDto(part: part, workouts: workouts ?? []);
     }).toList();
 
-    var record = WorkoutRecordDto(
-        userId: 'Bobby', volume: totalVolume, performed: performed);
+    var record = WorkoutRecordModel(
+      userId: 'Bobby',
+      volume: totalVolume,
+      performed: performed,
+    );
 
     await ApiInterface().setWOrkoutRecord(record: record);
   }
