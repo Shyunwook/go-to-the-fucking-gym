@@ -1,0 +1,50 @@
+{
+  "timeStamp": "TIMESTAMP",
+  "name": "benchPress",
+  "maximumWeightSet": [
+    {
+      "set": 5,
+      "reps": 5,
+      "weight": 80,
+      "isKillogram": true,
+      "restTime": 93500
+    }
+  ],
+  "sets": [
+    {
+      "set": 1,
+      "reps": 10,
+      "weight": 70,
+      "isKillogram": true,
+      "restTime": 93500
+    },
+    {
+      "set": 2,
+      "reps": 8,
+      "weight": 75,
+      "isKillogram": true,
+      "restTime": 93500
+    },
+    {
+      "set": 3,
+      "reps": 6,
+      "weight": 75,
+      "isKillogram": true,
+      "restTime": 93500
+    },
+    {
+      "set": 4,
+      "reps": 5,
+      "weight": 75,
+      "isKillogram": true,
+      "restTime": 93500
+    },
+    {
+      "set": 5,
+      "reps": 5,
+      "weight": 80,
+      "isKillogram": true,
+      "restTime": 93500
+    }
+  ]
+}

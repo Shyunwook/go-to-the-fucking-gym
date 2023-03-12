@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_to_the_fucking_gym/pages/countdown.page.dart';
 import 'package:go_to_the_fucking_gym/screens/home.screen.dart';
+import 'package:go_to_the_fucking_gym/screens/record.screen.dart';
 
 import 'pages/pages.dart';
 import 'screens/screens.dart';
@@ -43,6 +44,12 @@ final GoRouter router = GoRouter(
       path: '/day-summary',
       builder: (context, state) {
         return const SummaryScreen();
+      },
+    ),
+    GoRoute(
+      path: '/record',
+      builder: (context, state) {
+        return const RecordScreen();
       },
     ),
   ],

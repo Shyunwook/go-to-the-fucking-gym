@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_to_the_fucking_gym/api/dto/dto.dart';
+import 'package:go_to_the_fucking_gym/api/rest_client.dart';
+import 'package:intl/intl.dart';
 
 class WorkoutController with ChangeNotifier {
   final performedWorkoutMap = <String, Map<String, List<PerformSet>>>{};
   double totalVolume = 0;
-  DateTime? startTime;
-  DateTime? endTime;
+  DateTime? _startTime;
+  DateTime? _endTime;
 
   Duration get workoutTime =>
-      endTime?.difference(startTime ?? DateTime.now()) ?? Duration.zero;
+      _endTime?.difference(_startTime ?? DateTime.now()) ?? Duration.zero;
+  set startTime(time) => _startTime = time;
 
   void setPerformedWorkout(PerformSet workout) {
     if (performedWorkoutMap[workout.part] == null) {
@@ -38,7 +42,47 @@ class WorkoutController with ChangeNotifier {
     notifyListeners();
   }
 
-  void calculateWokoutVolume() {
+  void doneWorkout() async {
+    _calculateWokoutVolume();
+    _endTime = DateTime.now();
+
+    var performed = performedWorkoutMap.keys.map((part) {
+      var workouts = performedWorkoutMap[part]?.keys.map(
+        (name) {
+          var workout = performedWorkoutMap[part]?[name] ?? [];
+          var sets = workout.map((performedSet) {
+            var restTime = '${performedSet.restTime}0';
+
+            return WorkoutSetDto(
+              set: performedSet.setCount,
+              reps: performedSet.reps,
+              weight: (performedSet.isKillogram
+                  ? performedSet.kg
+                  : performedSet.lb)!,
+              isKillogram: performedSet.isKillogram,
+              restTime: DateFormat('mm:ss:SS')
+                  .parse(restTime)
+                  .difference(
+                    DateFormat('mm:ss:SS').parse('00:00:00'),
+                  )
+                  .inMilliseconds,
+            );
+          }).toList();
+
+          return WorkoutDto(name: name, sets: sets);
+        },
+      ).toList();
+
+      return PerformedDto(part: part, workouts: workouts ?? []);
+    }).toList();
+
+    var record = WorkoutRecordDto(
+        userId: 'Bobby', volume: totalVolume, performed: performed);
+
+    await ApiInterface().setWOrkoutRecord(record: record);
+  }
+
+  void _calculateWokoutVolume() {
     totalVolume = 0;
 
     for (var workouts in performedWorkoutMap.values) {
@@ -48,7 +92,6 @@ class WorkoutController with ChangeNotifier {
         }
       }
     }
-    notifyListeners();
   }
 }
 

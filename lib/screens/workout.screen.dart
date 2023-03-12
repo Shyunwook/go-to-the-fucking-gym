@@ -51,8 +51,8 @@ class _WorkoutScreenState extends State<WorkoutScreen>
           ),
         ),
         onPressed: () {
-          context.read<WorkoutController>().calculateWokoutVolume();
-          context.read<WorkoutController>().endTime = DateTime.now();
+          context.read<WorkoutController>().doneWorkout();
+
           context.go('/day-summary');
         },
         child: const Text(
