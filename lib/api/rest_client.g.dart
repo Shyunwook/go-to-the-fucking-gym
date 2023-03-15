@@ -19,7 +19,7 @@ class __RestClient implements _RestClient {
   String? baseUrl;
 
   @override
-  Future<List<WorkoutRecordDto>> getWorkoutRecord(day) async {
+  Future<List<WorkoutRecordDto>> getWorkoutRecords(day) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'day': day};
     final _headers = <String, dynamic>{};
@@ -32,7 +32,7 @@ class __RestClient implements _RestClient {
     )
             .compose(
               _dio.options,
-              '/workouts',
+              '/records',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -41,6 +41,53 @@ class __RestClient implements _RestClient {
         .map(
             (dynamic i) => WorkoutRecordDto.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<List<String>> getWorkouts() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<String>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/workouts',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!.cast<String>();
+    return value;
+  }
+
+  @override
+  Future<Map<String, WorkoutSetDto>> getRecentWorkoutRecords(workout) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<Map<String, WorkoutSetDto>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/records/${workout}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!.map((k, dynamic v) =>
+        MapEntry(k, WorkoutSetDto.fromJson(v as Map<String, dynamic>)));
     return value;
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_to_the_fucking_gym/api/rest_client.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,9 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                context.push('/record');
+                context.push('/record-day');
               },
-              child: const Text('GO TO THE RECORD'),
+              child: const Text('GO TO THE RECORD(DAY)'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.push('/record-workout');
+              },
+              child: const Text('GO TO THE RECORD(workout)'),
             ),
           ],
         ),

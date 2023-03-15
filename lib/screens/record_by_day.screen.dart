@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:go_to_the_fucking_gym/provider/record.provider.dart';
+import 'package:go_to_the_fucking_gym/provider/day_record.provider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class RecordScreen extends StatelessWidget {
-  const RecordScreen({super.key});
+class RecordByDayScreen extends StatelessWidget {
+  const RecordByDayScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (constext) => RecordController(),
-      child: const _RecordScreen(),
+      create: (constext) => DayRecordController(),
+      child: const _RecordByDayScreen(),
     );
   }
 }
 
-class _RecordScreen extends StatefulWidget {
-  const _RecordScreen();
+class _RecordByDayScreen extends StatefulWidget {
+  const _RecordByDayScreen();
 
   @override
-  State<_RecordScreen> createState() => _RecordScreenState();
+  State<_RecordByDayScreen> createState() => _RecordByDayScreenState();
 }
 
-class _RecordScreenState extends State<_RecordScreen> {
+class _RecordByDayScreenState extends State<_RecordByDayScreen> {
   DateTime currentDay = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    var recordController = context.watch<RecordController>();
+    var recordController = context.watch<DayRecordController>();
 
     return Scaffold(
       body: SafeArea(

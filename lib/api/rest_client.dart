@@ -11,10 +11,17 @@ part 'rest_client.g.dart';
 abstract class _RestClient {
   factory _RestClient(Dio dio) = __RestClient;
 
-  @GET("/workouts")
-  Future<List<WorkoutRecordDto>> getWorkoutRecord(
+  @GET("/records")
+  Future<List<WorkoutRecordDto>> getWorkoutRecords(
     @Query('day') String day,
   );
+
+  @GET("/workouts")
+  Future<List<String>> getWorkouts();
+
+  @GET("/records/{workout}")
+  Future<Map<String, WorkoutSetDto>> getRecentWorkoutRecords(
+      @Path("workout") String workout);
 
   @POST('/workouts')
   @Headers(<String, dynamic>{
@@ -35,8 +42,17 @@ class ApiInterface {
     return _instance;
   }
 
-  Future<List<WorkoutRecordDto>> getWorkoutRecord(String day) async {
-    return await _restClient.getWorkoutRecord(day);
+  Future<List<WorkoutRecordDto>> getWorkoutRecords(String day) async {
+    return await _restClient.getWorkoutRecords(day);
+  }
+
+  Future<List<String>> getWorkouts() async {
+    return await _restClient.getWorkouts();
+  }
+
+  Future<Map<String, WorkoutSetDto>> getRecentWorkoutRecords(
+      String workoutId) async {
+    return await _restClient.getRecentWorkoutRecords(workoutId);
   }
 
   Future<void> setWOrkoutRecord({required WorkoutRecordModel record}) async {
