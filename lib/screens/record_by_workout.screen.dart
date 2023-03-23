@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_to_the_fucking_gym/pages/bar_chart_record.page.dart';
 import 'package:go_to_the_fucking_gym/provider/workout_record.provider.dart';
 import 'package:provider/provider.dart';
 
@@ -43,9 +44,21 @@ class __RecordByWorkoutScreenState extends State<_RecordByWorkoutScreen> {
                   var workout = recordController.workoutList[index];
                   return ElevatedButton(
                     onPressed: () async {
-                      var data = await recordController
+                      var record = await recordController
                           .getWorkoutRecentRecords(workout);
-                      print(data);
+
+                      if (mounted) {
+                        await showModalBottomSheet(
+                          backgroundColor: const Color(0xff2d4261),
+                          context: context,
+                          builder: (_) {
+                            return BarChartRecordPage(
+                              workoutName: workout,
+                              data: record,
+                            );
+                          },
+                        );
+                      }
                     },
                     child: Text(workout),
                   );
