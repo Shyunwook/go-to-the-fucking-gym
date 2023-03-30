@@ -24,7 +24,8 @@ class _RecordByDayScreen extends StatefulWidget {
 }
 
 class _RecordByDayScreenState extends State<_RecordByDayScreen> {
-  DateTime currentDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +38,25 @@ class _RecordByDayScreenState extends State<_RecordByDayScreen> {
             TableCalendar(
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
-              focusedDay: DateTime.now(),
+              focusedDay: _focusedDay,
+              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
               onDaySelected: (selectedDay, focusedDay) {
-                currentDay = selectedDay;
+                if (!isSameDay(_selectedDay, selectedDay)) {
+                  print(selectedDay);
+                  print(focusedDay);
+                  // Call `setState()` when updating the selected day
+                  setState(() {
+                    _selectedDay = selectedDay;
+                  });
+                }
               },
             ),
             ElevatedButton(
               onPressed: () {
-                recordController
-                    .getDayRecord(DateFormat('yyyyMMdd').format(currentDay));
+                if (_selectedDay != null) {
+                  recordController.getDayRecord(
+                      DateFormat('yyyyMMdd').format(_selectedDay!));
+                }
               },
               child: const Text('날짜 조회'),
             ),
